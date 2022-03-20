@@ -1,0 +1,27 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
+
+/* Admin login form */
+.adlogin-container {
+    width: 100%;
+    height: 100vh;
+    padding: 10px;
+}
+
+.adlogin-container .container form {
+    width: 500px;
+    background-color: aliceblue;
+}
+
+.adlogin-container .form-submit {
+    width: 35%;
+}
+
+/* Admin User Table Info */
+.user-table {
+    width: 100%;
+    height: 100vh;
+}
