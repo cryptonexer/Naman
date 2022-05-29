@@ -6,23 +6,23 @@ const Auth = () => {
     useEffect(() => {
         const token = localStorage.getItem('token');
 
-        if (!token) {
+        if(!token){
             window.alert('Invalid User Please Register');
         }
-        else {
+        else{
             window.location.href = '/PartyDashboard'
         }
     }, [])
 
     return (
         <>
-            <div className="Auth_container">
-                <Container>
-                    <div className="message">
-                        <h2>Authorizing User...</h2>
-                    </div>
-                </Container>
-            </div>
+        <div className="Auth_container">
+            <Container>
+                <div className="message">
+                    <h2>Authorizing User...</h2>
+                </div>
+            </Container>
+        </div> 
         </>
     )
 }

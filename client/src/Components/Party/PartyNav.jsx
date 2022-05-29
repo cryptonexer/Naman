@@ -10,9 +10,9 @@ const Topbar = () => {
 
     return (
         <>
-          <Navbar collapseOnSelect expand="lg" bg="dark" variant="dark">
+          <Navbar collapseOnSelect expand="lg" variant="dark" className='custom-nav'>
               <Container>
-                <Navbar.Brand href="/">Cryptonex</Navbar.Brand>
+                <Navbar.Brand href="#home">Cryptonex</Navbar.Brand>
                 <Navbar.Toggle aria-controls="responsive-navbar-nav" />
                 <Navbar.Collapse id="responsive-navbar-nav">
                   <Nav className="me-auto">
@@ -22,14 +22,14 @@ const Topbar = () => {
                   </LinkContainer>
 
                   <LinkContainer to="/partydetail">
-                  <Nav.Link>For Party</Nav.Link>
+                  <Nav.Link>Profile</Nav.Link>
                   </LinkContainer>
 
                   {
-                  localStorage.getItem('token') && (
-                    <LinkContainer to="/partylogin" onClick={logout}>
-                    <Nav.Link>Logout</Nav.Link>
-                    </LinkContainer> )
+                    localStorage.getItem('token') && (
+                      <LinkContainer to="/partylogin" onClick={logout}>
+                      <Nav.Link>Logout</Nav.Link>
+                      </LinkContainer> )
                   }
 
                   </Nav>

@@ -30,10 +30,6 @@ const PartyregSchema = new mongoose.Schema({
         type: String,
         required: true
     },
-    Cpassword: {
-        type: String,
-        required: true
-    },
     Status: {
         type: String
     },
@@ -46,6 +42,6 @@ const PartyregSchema = new mongoose.Schema({
 })
 
 
-const Partyreg = mongoose.model('PARYREGISTERAION', PartyregSchema);
+const Partyreg = mongoose.model('parties', PartyregSchema);
 
 module.exports = Partyreg;

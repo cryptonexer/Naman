@@ -1,26 +1,25 @@
 import React,{useEffect,useState} from 'react'
 import Nav from './VoterNav'
 import './Voter.css'
-import { Container, Card, Button, Row, Col } from 'react-bootstrap'
-import axios from 'axios'
+import { Container} from 'react-bootstrap'
 import Ballot from './Votingballot'
 
 const VoterDashboard = () => {
 
     const [userData,setUserData] = useState([]);
     
-
+    const host = `http://localhost:3002`;
     const Welcome = async () => {
-        const req = await fetch('/api/voter/me',{
+        const req = await fetch(`${host}/api/voter/me`,{
             headers:{
                 'x-access-token' : localStorage.getItem('token'),
             }
         })
-
         const data = await req.json();
-        setUserData((data.data));   
-        
+        setUserData((data.data));           
     }
+
+
     useEffect(() => {
         const token = localStorage.getItem('token');
 
@@ -32,16 +31,26 @@ const VoterDashboard = () => {
         }
     }, [])
 
+
     const ballot = userData.ProfileStatus;
+    const status = userData.VoteStatus;
     let verification;
+    let result;
 
     if(ballot == "Verified"){
-        verification = <Ballot />
+        verification = <Ballot/>;
     }
     else
     {
         verification = <center><h2>PROFILE UNDER VERIFICATION</h2></center>;
     }
+
+    if(status == "true")
+    {
+        result = <center><h2>Result will be out soon</h2></center>;
+        }
+        
+
 
     return (
         <div className='dashboard'>
@@ -66,7 +75,6 @@ const VoterDashboard = () => {
             
         </Container>  
         <hr />
-
          {verification}
 
         </div>

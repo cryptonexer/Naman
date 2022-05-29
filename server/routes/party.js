@@ -1,11 +1,14 @@
 const express = require('express');
-const router = express.Router();
+const server = express.Router();
 const User = require('../model/PartyregSchema');
 const multer = require('multer');
 const Jwt = require('jsonwebtoken');
-const verifypartyuser = require('../middleware/verifyToken');
+const verifypartyuser = require('../middleware/verifyPartyToken');
+var md5 = require('md5');
 
 
+
+//middleware
 //image upload and storage
 const storage = multer.diskStorage({
   destination: function (req, file, cb) {
@@ -21,8 +24,9 @@ const upload = multer({
 }).single('File');
 
 
+
 //party register route
-router.post('/api/register', upload, async (req, res) => {
+server.post('/api/party/register', upload, async (req, res) => {
   const { Party_name, Candidate_name, Email, Phone, Slogan, Description, Password, Cpassword } = req.body;
 
   const file = req.file.filename;
@@ -31,11 +35,16 @@ router.post('/api/register', upload, async (req, res) => {
     return res.json({ Status: 'Please Enter all details' });
   }
 
+  if(Phone.length!=10){
+    return res.json({ Status: 'Enter valid 10-digit number'});
+  }
+  
   if (Password !== Cpassword) {
     return res.json({ Status: 'Please Enter Same Password' });
   }
 
   const Stat = "Inactive";
+  var hashPass = md5(Password);
 
   try {
     const newUser = await User.create({
@@ -45,15 +54,13 @@ router.post('/api/register', upload, async (req, res) => {
       Phone: Phone,
       Slogan: Slogan,
       Description: Description,
-      Password: Password,
-      Cpassword: Cpassword,
+      Password: hashPass,
       Status: Stat,
       Image: file,
       Count: 0
     })
     if (newUser) {
       res.json({ Status: 'ok' });
-      console.log(newUser);
     }
   } catch (error) {
     res.json({ Status: 'error', error: 'Duplicate email' });
@@ -61,9 +68,13 @@ router.post('/api/register', upload, async (req, res) => {
 });
 
 
-//party login route
-router.post('/api/login', async (req, res) => {
-  const user = await User.findOne({ Email: req.body.Email, Password: req.body.Password });
+//Party Login route
+server.post('/api/party/login', async (req, res) => {
+
+  var hashPass = md5(req.body.Password);
+
+
+  const user = await User.findOne({ Email: req.body.Email, Password: hashPass })
 
   if (user) {
     const token = Jwt.sign({
@@ -93,10 +104,12 @@ router.post('/api/login', async (req, res) => {
 
 
 //Party Profile route
-router.get('/api/party/me', verifypartyuser, async (req, res) => {
+server.get('/api/party/me', verifypartyuser, async (req, res) => {
   const rootuser = await User.findOne({ Email: req.Email });
   return res.json({ data: rootuser });
-});
+})
 
 
-module.exports = router;
+
+
+module.exports = server;

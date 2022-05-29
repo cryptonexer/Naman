@@ -5,9 +5,10 @@ import './party.css'
 const PartyDashboard = () => {
 
     const [userData,setUserData] = useState([]);
+    const host = `http://localhost:3002`;
 
     const Welcome = async () => {
-        const req = await fetch('/api/party/me',{
+        const req = await fetch(`${host}/api/party/me`,{
             headers:{
                 'x-access-token' : localStorage.getItem('token'),
             }

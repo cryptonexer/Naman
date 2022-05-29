@@ -30,6 +30,17 @@ const VoterregSchema = new mongoose.Schema({
       VoteStatus:{
             type: String,
             required: true
+      },
+
+      Vt:{
+            type: String,
+            required: true
+      },
+
+      Pow:{
+            type: String,
+            required: true
+
       }
 
       

@@ -9,11 +9,12 @@ const Partylogin = () => {
 
     const [Email,setEmail] = useState('');
     const [Password,setPassword] = useState('');
+    const host = `http://localhost:3002`;
 
     const Postdata = async (e) => {
         e.preventDefault();
 
-        const response = await fetch('/api/login',{
+        const response = await fetch(`${host}/api/party/login`,{
             method: 'POST',
             headers:{
                 'Content-Type' : 'application/json'
